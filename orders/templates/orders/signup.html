@@ -1,0 +1,27 @@
+{% extends "orders/base.html" %}
+
+ {% block title %}
+     Pinocchio's | Signup
+ {% endblock %}
+
+ {% block heading %}
+    Sign Up
+ {% endblock %}
+
+{% block body %}
+{% if message %}
+    <div>
+        {{ message }}
+    </div>
+{% endif %}
+<form action="{% url 'signupsuccess' %}" method="post">
+    {% csrf_token %}
+    <input name="username" type="text" placeholder="ID"> <br>
+    <input name="password" type="password" placeholder="Password"> <br>
+    <input name="first_name" type="text" placeholder="First Name"> <br>
+    <input name="last_name" type="text" placeholder="Last Name"> <br>
+    <input name="email" type="text" placeholder="Email"> <br><br>
+    <button type="submit" class="btn btn-success">Sign Up</button><br>
+    <a href="{% url 'index' %}" class="btn btn-default">Back to Homepage</a>
+</form>
+{% endblock %}

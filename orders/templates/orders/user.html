@@ -1,0 +1,16 @@
+{% extends "orders/base.html" %}
+
+ {% block title %}
+     Pinocchio's | Main
+ {% endblock %}
+
+ {% block heading %}
+    Welcome, {{ user.first_name }}!
+ {% endblock %}
+
+{% block body %}
+<ul>
+    <li>Currently logged in as: {{ user.username }}</li>
+    <li><a href="{% url 'logout' %}">Logout</a></li>
+</ul>
+{% endblock %}
