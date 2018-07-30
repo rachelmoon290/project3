@@ -1,0 +1,140 @@
+{% extends "orders/base.html" %}
+
+ {% block title %}
+     Pinocchio's | Menu
+ {% endblock %}
+
+ {% block heading %}
+    Menu
+ {% endblock %}
+
+{% block body %}
+<ul>
+    <li><span style="color: green"><b>{{ user.username }}</b></span>, let's start ordering some food!</li>
+    <li>(You can add pizza/sub toppings in your cart.)</li><br>
+</ul>
+
+<form action="{% url 'addtocart' %}" method="post">
+    {% csrf_token %}
+<h3>Pizza</h3>
+<table class="table table-sm table-striped">
+  <thead class="bg-success">
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Type</th>
+      <th scope="col">Size</th>
+      <th scope="col">Price($)</th>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for pizza in pizzas %}
+    <tr>
+        <th scope="row">{{ pizza.name }}</th>
+        <td>{{ pizza.type}}</td>
+        <td>{{ pizza.size }}</td>
+        <td>{{ pizza.price }}</td>
+        <td><input name="pizza_{{ pizza.id }}_quantity" type="number" value ="0" min="0" style="width:50px"></td>
+    </tr>
+        {% endfor %}
+  </tbody>
+</table><br>
+
+
+<h3>Sub</h3>
+<table class="table table-sm table-striped">
+  <thead class="bg-success">
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Size</th>
+      <th scope="col">Price($)</th>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for sub in subs %}
+    <tr>
+        <th scope="row">{{ sub.name }}</th>
+        <td>{{ sub.size }}</td>
+        <td>{{ sub.price }}</td>
+        <td><input name="sub_{{ sub.id }}_quantity" type="number" value ="0" min="0" style="width:50px"></td>
+    </tr>
+        {% endfor %}
+  </tbody>
+</table><br>
+
+
+<h3>Salad</h3>
+<table class="table table-sm">
+  <thead class="bg-success">
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Price($)</th>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for salad in salads %}
+    <tr>
+        <th scope="row">{{ salad.name }}</th>
+        <td>{{ salad.price }}</td>
+        <td><input name="salad_{{ salad.id }}_quantity" type="number" value ="0" min="0" style="width:50px"></td>
+    </tr>
+        {% endfor %}
+  </tbody>
+</table><br>
+
+
+<h3>Pasta</h3>
+<table class="table table-sm">
+  <thead class="bg-success">
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Price($)</th>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for pasta in pastas %}
+    <tr>
+        <th scope="row">{{ pasta.name }}</th>
+        <td>{{ pasta.price }}</td>
+        <td><input name="pasta_{{ pasta.id }}_quantity" type="number" value ="0" min="0" style="width:50px"></td>
+    </tr>
+        {% endfor %}
+  </tbody>
+</table><br>
+
+<h3>Dinner Platter</h3>
+<table class="table table-sm table-striped">
+  <thead class="bg-success">
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Size</th>
+      <th scope="col">Price($)</th>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for platter in dinner_platters %}
+    <tr>
+        <th scope="row">{{ platter.name }}</th>
+        <td>{{ platter.size }}</td>
+        <td>{{ platter.price }}</td>
+        <td><input name="platter_{{ platter.id }}_quantity" type="number" value ="0" min="0" style="width:50px"></td>
+    </tr>
+        {% endfor %}
+  </tbody>
+</table><br>
+
+<ul>
+    <li><button type="submit" class= "btn btn-success btn-lg btn-block">Add to Cart</button></li><br>
+</ul>
+</form>
+
+
+<div id="navfloat">
+    <a class="btn btn-success" href="{% url 'index' %}" role="button">Home</a>
+    <a class="btn btn-success" href="{% url 'logout' %}" role="button">Logout</a>
+</div>
+{% endblock %}

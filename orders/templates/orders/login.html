@@ -16,7 +16,7 @@
 {% endif %}
 <form action="{% url 'loggedin' %}" method="post">
     {% csrf_token %}
-    <input name="username" type="text"/ placeholder="ID"><br>
+    <input name="username" type="text" placeholder="ID"><br>
     <input name="password" type="password" placeholder="Password"><br><br>
     <button type="submit" class="btn btn-success">Login</button><br>
     <a href="{% url 'index' %}" class="btn btn-default">Back to Homepage</a>

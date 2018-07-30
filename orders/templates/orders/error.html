@@ -1,0 +1,15 @@
+{% extends "orders/base.html" %}
+
+{% block title %}
+Ponocchio's | Error
+{% endblock %}
+
+{% block heading %}
+    Error
+{% endblock %}
+
+{% block body %}
+  {{ message }}
+  <br>
+  <a href="{% url 'index' %}">Return to main page.</a>
+{% endblock %}

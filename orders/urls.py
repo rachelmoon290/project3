@@ -8,5 +8,7 @@ urlpatterns = [
     path("loggedin", views.loggedin_view, name="loggedin"),
     path("logout", views.logout_view, name="logout"),
     path("signup", views.signup_view, name="signup"),
-    path("signupsuccess", views.signupsuccess_view, name="signupsuccess")
+    path("signupsuccess", views.signupsuccess_view, name="signupsuccess"),
+    path("menu", views.menu_view, name="menu"),
+    path("addtocart", views.add_to_cart_view, name="addtocart")
 ]

@@ -1,6 +1,7 @@
 from django.contrib import admin
-from .models import Salad, Pasta
+from django.apps import apps
 
-# Register your models here.
-admin.site.register(Salad)
-admin.site.register(Pasta)
+models = apps.get_app_config("orders").get_models()
+
+for model in models:
+    admin.site.register(model)

@@ -3,18 +3,23 @@ from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
-
+from .models import *
 
 def index(request):
     if not request.user.is_authenticated:
-        return render(request, "orders/index.html", {"message": None})
+        return render(request, "orders/index.html")
     context = {
         "user": request.user
     }
-    return render(request, "orders/user.html", context)
+    if request.user.is_superuser:
+        return render(request, "orders/superuser.html", context)
+    else:
+        return render(request, "orders/user.html", context)
+
 
 
 def login_view(request):
+    logout(request)
     return render(request, "orders/login.html")
 
 
@@ -28,15 +33,19 @@ def loggedin_view(request):
     else:
         return render(request, "orders/login.html", {"message": "Invalid credentials. Please try again."})
 
+
 def logout_view(request):
     logout(request)
     return render(request, "orders/login.html", {"message": "You are now logged out."})
 
+
+
 def signup_view(request):
     return render(request, "orders/signup.html")
 
-def signupsuccess_view(request):
 
+
+def signupsuccess_view(request):
 
     username = request.POST["username"]
     password = request.POST["password"]
@@ -52,3 +61,25 @@ def signupsuccess_view(request):
         user.first_name = first_name
         user.save()
         return render(request, "orders/signupsuccess.html")
+
+def menu_view(request):
+    if not request.user.is_authenticated:
+        return render(request, "orders/index.html")
+    elif request.user.is_superuser:
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        context = {
+            "user": request.user,
+            "pizza_toppings": PizzaTopping.objects.all(),
+            "sub_toppings": SubTopping.objects.all(),
+            "subs": Sub.objects.all(),
+            "pizzas": Pizza.objects.all(),
+            "salads": Salad.objects.all(),
+            "pastas": Pasta.objects.all(),
+            "dinner_platters": DinnerPlatter.objects.all()
+        }
+        return render(request, "orders/menu.html", context)
+
+
+def add_to_cart_view(request):
+    return render(request, "orders/addtocart.html")

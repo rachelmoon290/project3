@@ -1,7 +1,7 @@
 {% extends "orders/base.html" %}
 
  {% block title %}
-     Pinocchio's | Main
+     Pinocchio's | Admin
  {% endblock %}
 
  {% block heading %}
@@ -11,8 +11,7 @@
 {% block body %}
 <ul>
     <li>Currently logged in as: <span style="color: green"><b>{{ user.username }}</b></span></li><br>
-    <li><a class= "btn btn-outline-success" role="button" href="#">My Cart</a> &nbsp; <a class= "btn btn-outline-success" role="button" href="#">My Orders</a></li><br>
-    <li><a class= "btn btn-success btn-lg btn-block" href="{% url 'menu' %}" role="button">View menu to start ordering!</a></li><br>
+    <li><a class= "btn btn-success btn-lg btn-block" href="#" role="button">Manage Orders</a></li><br>
 </ul>
 
 <div id="navfloat">

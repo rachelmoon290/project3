@@ -5,7 +5,7 @@
 }
 
 body {
-    max-width: 1600px;
+    max-width: 2000px;
     margin: auto;
     font-size: 20px;
 }
@@ -27,4 +27,24 @@ form {
 ul {
     list-style-type: none;
     padding-left: 0;
+}
+
+#navfloat {
+  position: fixed;
+  top: 10px;
+  right: 20px;
+}
+
+footer {
+    font-size: 15px;
+    text-align: center;
+}
+
+thead {
+    font-size: 20px;
+    color: white;
+}
+
+table {
+    text-align:center;
 }
