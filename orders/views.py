@@ -4,6 +4,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from .models import *
+from django.db.models import Q
+
 
 def index(request):
     if not request.user.is_authenticated:
@@ -70,16 +72,30 @@ def menu_view(request):
     else:
         context = {
             "user": request.user,
-            "pizza_toppings": PizzaTopping.objects.all(),
-            "sub_toppings": SubTopping.objects.all(),
-            "subs": Sub.objects.all(),
-            "pizzas": Pizza.objects.all(),
-            "salads": Salad.objects.all(),
-            "pastas": Pasta.objects.all(),
-            "dinner_platters": DinnerPlatter.objects.all()
+            "menu": Menu.objects.all()
         }
         return render(request, "orders/menu.html", context)
 
 
 def add_to_cart_view(request):
+
+    user = request.user
+
+    if (Cart.objects.filter(user = user).count() == 0):
+        cart = Cart.objects.create(user = user)
+    else:
+        cart = Cart.objects.get(user = user)
+
+    menulist = Menu.objects.exclude(Q(category = "PizzaTopping") | Q(category = "SubTopping")).values('id')
+    for menu_id in menulist:
+        qty = int(request.POST[str(menu_id['id'])])
+        if (qty > 0):
+            item = Menu.objects.get(pk = menu_id['id'])
+            cart_entry = CartEntry(cart = cart, item = item)
+            cart_entry.quantity = qty
+            cart_entry.save()
+            cart.count += qty
+            cart.total += item.price * qty
+
+    cart.save()
     return render(request, "orders/addtocart.html")
