@@ -220,22 +220,23 @@ def manage_orders_view(request):
         }
         return render(request, "orders/manageorders.html", context)
 
-'''
 def orderstatus_change_view(request):
 
     if request.method == "POST":
-        order_id = request.
+        order_id = request.POST["complete"]
 
-        orders = Order.objects.all()
-        orderentry = OrderEntry.objects.filter(order__in = orders)
+
+        order = Order.objects.get(pk = order_id)
+        order.status = "Complete"
+        order.save()
 
         context = {
-            "orders": orders,
-            "orderentry": orderentry
+        "order": order
         }
-        return render(request, "orders/manageorders.html", context)
+
+
+        return render(request, "orders/orderstatus_change.html", context)
 
 
     else:
         return HttpResponseRedirect(reverse("manageorders"))
-'''

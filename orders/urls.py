@@ -15,6 +15,6 @@ urlpatterns = [
     path("orderconfirm", views.order_confirm_view, name="orderconfirm"),
     path("orderplaced", views.order_placed_view, name="orderplaced"),
     path("myorder", views.my_order_view, name="myorder"),
-    path("manageorders", views.manage_orders_view, name="manageorders")
-    #path("orderstatus_change", views.orderstatus_change_view, name="orderstatus_change")
+    path("manageorders", views.manage_orders_view, name="manageorders"),
+    path("orderstatus_change", views.orderstatus_change_view, name="orderstatus_change")
 ]

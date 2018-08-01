@@ -37,7 +37,7 @@
     <li> <b>Total cost:</b> ${{ order.total }} </li>
 
     {% if order.status == "Pending" %}
-    <li> <b>Status:</b> {{ order.status }} <button class = "btn btn-sm btn-outline-success" type="submit" name="{{ order.id }}">Complete</button></li>
+    <li> <b>Status:</b> {{ order.status }} <button class = "btn btn-sm btn-outline-success" type="submit" name="complete" value="{{ order.id }}">Complete</button></li>
     {% else %}
     <li> <b>Status:</b> {{ order.status }}</li>
     {% endif %}
