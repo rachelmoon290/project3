@@ -1,15 +1,15 @@
 {% extends "orders/base.html" %}
 
  {% block title %}
-     Pinocchio's | Added to Cart
+     Pinocchio's | Order Successful
  {% endblock %}
 
  {% block heading %}
-    Items added to cart!
+    <span style="color:green"><b>{{ user.username }}</b></span>'s order has been placed!
  {% endblock %}
 
  {% block body %}
-    <p><a href="{% url 'cart' %}">Check my cart</a> or <a href="{% url 'menu' %}">return to menu</a>.</p>
+    <p><a href="{% url 'myorder' %}">View my orders</a> to check its status, or <a href="{% url 'index' %}">go back to main page</a>.</p>
 
     <div id="navfloat">
         <a class="btn btn-success btn-sm" href="{% url 'index' %}" role="button">Home</a>

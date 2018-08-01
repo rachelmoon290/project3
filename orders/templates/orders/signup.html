@@ -12,7 +12,7 @@
 {% if message %}
     <div>
         {{ message }}
-    </div>
+    </div><br>
 {% endif %}
 <form action="{% url 'signupsuccess' %}" method="post">
     {% csrf_token %}

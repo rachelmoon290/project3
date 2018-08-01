@@ -11,7 +11,7 @@
 {% block body %}
 <ul>
     <li>Currently logged in as: <span style="color: green"><b>{{ user.username }}</b></span></li><br>
-    <li><a class= "btn btn-success btn-lg btn-block" href="#" role="button">Manage Orders</a></li><br>
+    <li><a class= "btn btn-success btn-lg btn-block" href="{% url 'manageorders' %}" role="button">Manage Orders</a></li><br>
 </ul>
 
 <div id="navfloat">

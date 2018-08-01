@@ -1,19 +1,18 @@
 {% extends "orders/base.html" %}
 
  {% block title %}
-     Pinocchio's | Added to Cart
+     Pinocchio's | Order Status Updated
  {% endblock %}
 
  {% block heading %}
-    Items added to cart!
+    Order #{{ order.id }} has been updated as complete.
  {% endblock %}
 
  {% block body %}
-    <p><a href="{% url 'cart' %}">Check my cart</a> or <a href="{% url 'menu' %}">return to menu</a>.</p>
+    <p><a href="{% url 'manageorders' %}">Go back</a> to continue managing orders.</p>
 
     <div id="navfloat">
         <a class="btn btn-success btn-sm" href="{% url 'index' %}" role="button">Home</a>
-        <a class="btn btn-success btn-sm" href="{% url 'menu' %}" role="button">Menu</a>
         <a class="btn btn-success btn-sm" href="{% url 'logout' %}" role="button">Logout</a>
     </div>
  {% endblock %}

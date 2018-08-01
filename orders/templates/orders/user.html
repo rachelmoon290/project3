@@ -11,12 +11,13 @@
 {% block body %}
 <ul>
     <li>Currently logged in as: <span style="color: green"><b>{{ user.username }}</b></span></li><br>
-    <li><a class= "btn btn-outline-success" role="button" href="#">My Cart</a> &nbsp; <a class= "btn btn-outline-success" role="button" href="#">My Orders</a></li><br>
+    <li><a class= "btn btn-outline-success" role="button" href="{% url 'cart' %}">My Cart</a> &nbsp; <a class= "btn btn-outline-success" role="button" href="{% url 'myorder' %}">My Orders</a></li><br>
     <li><a class= "btn btn-success btn-lg btn-block" href="{% url 'menu' %}" role="button">View menu to start ordering!</a></li><br>
 </ul>
 
 <div id="navfloat">
-    <a class="btn btn-success" href="{% url 'index' %}" role="button">Home</a>
-    <a class="btn btn-success" href="{% url 'logout' %}" role="button">Logout</a>
+    <a class="btn btn-success btn-sm" href="{% url 'index' %}" role="button">Home</a>
+    <a class="btn btn-success btn-sm" href="{% url 'menu' %}" role="button">Menu</a>
+    <a class="btn btn-success btn-sm" href="{% url 'logout' %}" role="button">Logout</a>
 </div>
 {% endblock %}

@@ -1,0 +1,51 @@
+{% extends "orders/base.html" %}
+
+ {% block title %}
+     Pinocchio's | Cart
+ {% endblock %}
+
+ {% block heading %}
+    <span style="color: green"><b>{{ user.username }}</b></span>'s Cart
+ {% endblock %}
+
+{% block body %}
+
+<table class="table table-sm table-striped">
+  <thead class="bg-success">
+    <tr>
+      <th scope="col">Item</th>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in cartentry %}
+    <tr>
+        <th scope="row">{{ entry.item }}</th>
+        <td>{{ entry.quantity }}</td>
+    </tr>
+        {% endfor %}
+  </tbody>
+</table><br><br>
+
+
+<ul>
+    <li> <b>Total number of items:</b> {{ cart.count }}</li>
+    <li> <b>Total cost:</b> ${{ cart.total }} </li>
+</ul><br>
+
+{% if cart.count != 0 %}
+<ul>
+    <li><a class= "btn btn-outline-success btn-lg btn-block" href="{% url 'orderconfirm' %}" role="button">Submit Order</a></li><br>
+</ul>
+{% else %}
+<ul>
+    <li><a class= "btn btn-outline-success btn-lg btn-block" href="{% url 'menu' %}" role="button">View menu to add some items!</a></li><br>
+</ul>
+{% endif %}
+
+<div id="navfloat">
+    <a class="btn btn-success btn-sm" href="{% url 'index' %}" role="button">Home</a>
+    <a class="btn btn-success btn-sm" href="{% url 'menu' %}" role="button">Menu</a>
+    <a class="btn btn-success btn-sm" href="{% url 'logout' %}" role="button">Logout</a>
+</div>
+{% endblock %}

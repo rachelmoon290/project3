@@ -32,7 +32,6 @@ class Menu(models.Model):
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="carts")
-    created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     count = models.PositiveIntegerField(default=0)
     total = models.DecimalField(max_digits=7, default=0, decimal_places=2)
@@ -50,10 +49,9 @@ class Order(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name = "orders")
     created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
     count = models.PositiveIntegerField(default=0)
     total = models.DecimalField(max_digits=7, default=0, decimal_places=2)
-    status = models.CharField(max_length=3, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default="Pending")
 
     def __str__(self):
         return f"{self.user.username}'s order ({self.status}): {self.count} items — ${self.total}"
@@ -71,3 +69,17 @@ class CartEntry(models.Model):
 
     def __str__(self):
         return f"{self.item.get_category_display()}: {self.item.name} (Qty={self.quantity}) added to {self.cart.user}'s Cart."
+
+
+
+class OrderEntry(models.Model):
+    item = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name = 'Order Entry'
+        verbose_name_plural = 'Order Entries'
+
+    def __str__(self):
+        return f"{self.order.user} ordered {self.item.get_category_display()}: {self.item.name} (Qty={self.quantity})."

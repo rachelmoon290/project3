@@ -1,0 +1,48 @@
+{% extends "orders/base.html" %}
+
+ {% block title %}
+     Pinocchio's | My Orders
+ {% endblock %}
+
+ {% block heading %}
+    <span style="color: green"><b>{{ user.username }}</b></span>'s Orders
+ {% endblock %}
+
+{% block body %}
+
+{% for order in orders %}
+
+<br><h3>Order placed in: {{ order.created }}</h3>
+<table class="table table-sm table-striped">
+  <thead class="bg-success">
+    <tr>
+      <th scope="col">Item</th>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in orderentry %}
+    {% if entry.order == order %}
+    <tr>
+        <th scope="row">{{ entry.item }}</th>
+        <td>{{ entry.quantity }}</td>
+    </tr>
+    {% endif %}
+        {% endfor %}
+  </tbody>
+</table>
+<ul>
+    <li> <b>Total number of items:</b> {{ order.count }}</li>
+    <li> <b>Total cost:</b> ${{ order.total }} </li>
+    <li> <b>Status:</b> {{ order.status }}</li>
+</ul><hr>
+
+{% endfor %}
+
+
+<div id="navfloat">
+    <a class="btn btn-success btn-sm" href="{% url 'index' %}" role="button">Home</a>
+    <a class="btn btn-success btn-sm" href="{% url 'menu' %}" role="button">Menu</a>
+    <a class="btn btn-success btn-sm" href="{% url 'logout' %}" role="button">Logout</a>
+</div>
+{% endblock %}

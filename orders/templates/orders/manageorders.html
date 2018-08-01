@@ -1,0 +1,53 @@
+{% extends "orders/base.html" %}
+
+ {% block title %}
+     Pinocchio's | Manage Orders
+ {% endblock %}
+
+ {% block heading %}
+    Manage Orders
+ {% endblock %}
+
+{% block body %}
+<form action="{% url 'orderstatus_change' %}" method="post">
+    {% csrf_token %}
+{% for order in orders %}
+<br><h3>#{{ order.id }}. {{ order.user }} <small>{{ order.created }}</small></h3>
+<table class="table table-sm table-striped">
+  <thead class="bg-success">
+    <tr>
+      <th scope="col">Item</th>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in orderentry %}
+    {% if entry.order == order %}
+    <tr>
+        <th scope="row">{{ entry.item }}</th>
+        <td>{{ entry.quantity }}</td>
+    </tr>
+    {% endif %}
+        {% endfor %}
+  </tbody>
+</table>
+<br>
+<ul>
+    <li> <b>Total number of items:</b> {{ order.count }}</li>
+    <li> <b>Total cost:</b> ${{ order.total }} </li>
+
+    {% if order.status == "Pending" %}
+    <li> <b>Status:</b> {{ order.status }} <button class = "btn btn-sm btn-outline-success" type="submit" name="{{ order.id }}">Complete</button></li>
+    {% else %}
+    <li> <b>Status:</b> {{ order.status }}</li>
+    {% endif %}
+</ul><br><hr>
+
+{% endfor %}
+
+
+<div id="navfloat">
+    <a class="btn btn-success btn-sm" href="{% url 'index' %}" role="button">Home</a>
+    <a class="btn btn-success btn-sm" href="{% url 'logout' %}" role="button">Logout</a>
+</div>
+{% endblock %}

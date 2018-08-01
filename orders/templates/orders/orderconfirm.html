@@ -1,0 +1,51 @@
+{% extends "orders/base.html" %}
+
+ {% block title %}
+     Pinocchio's | Confirm Your Order
+ {% endblock %}
+
+ {% block heading %}
+    Confirm <span style="color: green"><b>{{ user.username }}</b></span>'s Order
+ {% endblock %}
+
+{% block body %}
+
+<table class="table table-sm table-striped">
+  <thead class="bg-success">
+    <tr>
+      <th scope="col">Item</th>
+      <th scope="col">Quantity</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for entry in cartentry %}
+    <tr>
+        <th scope="row">{{ entry.item }}</th>
+        <td>{{ entry.quantity }}</td>
+    </tr>
+        {% endfor %}
+  </tbody>
+</table><br><br>
+
+
+<ul>
+    <li> <b>Total number of items:</b> {{ cart.count }}</li>
+    <li> <b>Total cost:</b> ${{ cart.total }} </li>
+</ul><br>
+
+<form action="{% url 'orderplaced' %}" method="post">
+    {% csrf_token %}
+<ul>
+    <li><button class= "btn btn-outline-success btn-lg btn-block" href="{% url 'orderplaced' %}" type="submit">Place Order</button></li><br>
+</ul>
+</form>
+
+<ul>
+    <li><a class= "btn btn-outline-danger btn-lg btn-block" href="{% url 'cart' %}" role="button">Go Back to Cart</a></li><br>
+</ul>
+<div id="navfloat">
+    <a class="btn btn-success btn-sm" href="{% url 'index' %}" role="button">Home</a>
+    <a class="btn btn-success btn-sm" href="{% url 'menu' %}" role="button">Menu</a>
+    <a class="btn btn-success btn-sm" href="{% url 'logout' %}" role="button">Logout</a>
+</div>
+{% endblock %}
