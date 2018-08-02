@@ -22,13 +22,31 @@
   </thead>
   <tbody>
     {% for entry in orderentry %}
-    {% if entry.order == order %}
-    <tr>
-        <th scope="row">{{ entry.item }}</th>
-        <td>{{ entry.quantity }}</td>
-    </tr>
-    {% endif %}
-        {% endfor %}
+        {% if entry.order == order %}
+            <tr>
+                <th scope="row">{{ entry.item }}</th>
+                <td>{{ entry.quantity }}</td>
+            </tr>
+                {% for pz in pztoppingentry %}
+                    {% if pz.orderentry == entry %}
+                        <tr>
+                            <td>Extra: {{ pz.topping }}</td>
+                            <td></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+
+                {% for sub in subtoppingentry %}
+                    {% if sub.orderentry == entry %}
+                        <tr>
+                            <td>Extra: {{ sub.topping }}</td>
+                            <td></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+
+        {% endif %}
+    {% endfor %}
   </tbody>
 </table>
 <ul>

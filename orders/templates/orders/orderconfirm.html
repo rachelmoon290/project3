@@ -18,12 +18,30 @@
     </tr>
   </thead>
   <tbody>
-    {% for entry in cartentry %}
-    <tr>
-        <th scope="row">{{ entry.item }}</th>
-        <td>{{ entry.quantity }}</td>
-    </tr>
-        {% endfor %}
+      {% for entry in cartentry %}
+          <tr>
+              <th scope="row">{{ entry.item }}</th>
+              <td>{{ entry.quantity }}</td>
+          </tr>
+          {% for pz in pztoppingentry %}
+              {% if pz.cartentry == entry %}
+                  <tr>
+                      <td>Extra: {{ pz.topping }}</td>
+                      <td></td>
+                  </tr>
+              {% endif %}
+          {% endfor %}
+
+          {% for sub in subtoppingentry %}
+              {% if sub.cartentry == entry %}
+                  <tr>
+                      <td>Extra: {{ sub.topping }}</td>
+                      <td></td>
+                  </tr>
+              {% endif %}
+          {% endfor %}
+
+      {% endfor %}
   </tbody>
 </table><br><br>
 

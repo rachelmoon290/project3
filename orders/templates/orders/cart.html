@@ -10,6 +10,7 @@
 
 {% block body %}
 
+
 <table class="table table-sm table-striped">
   <thead class="bg-success">
     <tr>
@@ -19,13 +20,31 @@
   </thead>
   <tbody>
     {% for entry in cartentry %}
-    <tr>
-        <th scope="row">{{ entry.item }}</th>
-        <td>{{ entry.quantity }}</td>
-    </tr>
+        <tr>
+            <th scope="row">{{ entry.item }}</th>
+            <td>{{ entry.quantity }}</td>
+        </tr>
+        {% for pz in pztoppingentry %}
+            {% if pz.cartentry == entry %}
+                <tr>
+                    <td>Extra: {{ pz.topping }}</td>
+                    <td></td>
+                </tr>
+            {% endif %}
         {% endfor %}
+
+        {% for sub in subtoppingentry %}
+            {% if sub.cartentry == entry %}
+                <tr>
+                    <td>Extra: {{ sub.topping }}</td>
+                    <td></td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+
+    {% endfor %}
   </tbody>
-</table><br><br>
+</table><br>
 
 
 <ul>
@@ -35,6 +54,7 @@
 
 {% if cart.count != 0 %}
 <ul>
+    <li><a class= "btn btn-outline-danger btn-lg btn-block" href="{%url 'addtoppings' %}" role="button">Add Toppings</a></li><br>
     <li><a class= "btn btn-outline-success btn-lg btn-block" href="{% url 'orderconfirm' %}" role="button">Submit Order</a></li><br>
 </ul>
 {% else %}
@@ -42,6 +62,7 @@
     <li><a class= "btn btn-outline-success btn-lg btn-block" href="{% url 'menu' %}" role="button">View menu to add some items!</a></li><br>
 </ul>
 {% endif %}
+</form>
 
 <div id="navfloat">
     <a class="btn btn-success btn-sm" href="{% url 'index' %}" role="button">Home</a>

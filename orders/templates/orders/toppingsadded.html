@@ -1,0 +1,19 @@
+{% extends "orders/base.html" %}
+
+ {% block title %}
+     Pinocchio's | Toppings Added
+ {% endblock %}
+
+ {% block heading %}
+    Toppings added!
+ {% endblock %}
+
+ {% block body %}
+    <p><a href="{% url 'cart' %}">Check my cart</a> or <a href="{% url 'menu' %}">return to menu</a>.</p>
+
+    <div id="navfloat">
+        <a class="btn btn-success btn-sm" href="{% url 'index' %}" role="button">Home</a>
+        <a class="btn btn-success btn-sm" href="{% url 'menu' %}" role="button">Menu</a>
+        <a class="btn btn-success btn-sm" href="{% url 'logout' %}" role="button">Logout</a>
+    </div>
+ {% endblock %}

@@ -106,14 +106,9 @@ def add_to_cart_view(request):
 
             if (qty > 0):
                 item = Menu.objects.get(pk = menu_id['id'])
+                for i in range(qty):
+                    cart_entry = CartEntry.objects.create(cart = cart, item = item, quantity = 1)
 
-                if (CartEntry.objects.filter(Q(cart = cart), Q(item = item)).count() == 0):
-                    cart_entry = CartEntry(cart = cart, item = item)
-                else:
-                    cart_entry = CartEntry.objects.get(Q(cart = cart), Q(item = item))
-
-                cart_entry.quantity += qty
-                cart_entry.save()
                 cart.count += qty
                 cart.total += item.price * qty
 
@@ -133,13 +128,80 @@ def cart_view(request):
         user = request.user
         cart = Cart.objects.get(user = user)
         cartentry = CartEntry.objects.filter(cart = cart)
+        pztoppingentry = PizzaToppingEntry.objects.filter(cartentry__in = cartentry)
+        subtoppingentry = SubToppingEntry.objects.filter(cartentry__in = cartentry)
 
         context = {
             "user": user,
             "cart": cart,
-            "cartentry": cartentry
+            "cartentry": cartentry,
+            "pztoppingentry": pztoppingentry,
+            "subtoppingentry": subtoppingentry
         }
         return render(request, "orders/cart.html", context)
+
+
+def addtoppings_view(request):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("index"))
+    elif request.user.is_superuser:
+        return HttpResponseRedirect(reverse("index"))
+    else:
+
+        user = request.user
+        cart = Cart.objects.get(user = user)
+        cartentry = CartEntry.objects.filter(cart = cart)
+        pizzatoppings = PizzaTopping.objects.all()
+        subtoppings = SubTopping.objects.all()
+
+        context = {
+            "user": user,
+            "cart": cart,
+            "cartentry": cartentry,
+            "pizzatoppings": pizzatoppings,
+            "subtoppings": subtoppings
+        }
+        return render(request, "orders/addtoppings.html", context)
+
+
+def added_toppings_view(request):
+
+    if request.method =="POST":
+
+        user = request.user
+        cart = Cart.objects.get(user=user)
+        cartentry = CartEntry.objects.filter(cart=cart)
+
+
+        for entry in cartentry:
+
+            # if item in the cart is pizza with toppings
+            if (entry.item.topping > 0):
+                if str(entry.id) in request.POST:
+                    updates_list = request.POST.getlist(str(entry.id))
+                    if (len(updates_list) != entry.item.topping):
+                        return render(request, "orders/error.html", {"message": "Please choose the correct number of toppings for your pizza."})
+
+                    for topping in updates_list:
+                        pztoppingentry = PizzaToppingEntry(cartentry=entry)
+                        pztoppingentry.topping = PizzaTopping.objects.get(name=topping)
+                        pztoppingentry.save()
+            # if item in the cart is sub
+            elif entry.item.category == "Sub":
+                if str(entry.id) in request.POST:
+                    updates_list = request.POST.getlist(str(entry.id))
+                    for topping in updates_list:
+                        subtoppingentry = SubToppingEntry(cartentry=entry)
+                        subtoppingentry.topping = SubTopping.objects.get(name=topping)
+                        subtoppingentry.save()
+                        cart.total += SubTopping.objects.get(name=topping).price
+
+        cart.save()
+        return render(request, "orders/toppingsadded.html")
+
+    else:
+        return HttpResponseRedirect(reverse('addtoppings'))
+
 
 
 def order_confirm_view(request):
@@ -151,11 +213,16 @@ def order_confirm_view(request):
         user = request.user
         cart = Cart.objects.get(user = user)
         cartentry = CartEntry.objects.filter(cart = cart)
+        pztoppingentry = PizzaToppingEntry.objects.filter(cartentry__in = cartentry)
+        subtoppingentry = SubToppingEntry.objects.filter(cartentry__in = cartentry)
+
 
         context = {
             "user": user,
             "cart": cart,
-            "cartentry": cartentry
+            "cartentry": cartentry,
+            "pztoppingentry": pztoppingentry,
+            "subtoppingentry": subtoppingentry
         }
         return render(request, "orders/orderconfirm.html", context)
 
@@ -166,6 +233,9 @@ def order_placed_view(request):
         user = request.user
         cart = Cart.objects.get(user = user)
         cartentry = CartEntry.objects.filter(cart = cart)
+        pztoppingentry = PizzaToppingEntry.objects.filter(cartentry = cartentry)
+        subtoppingentry = SubToppingEntry.objects.filter(cartentry = cartentry)
+
         order = Order.objects.create(user = user, total = cart.total, count = cart.count)
 
         for entry in cartentry:
@@ -173,6 +243,22 @@ def order_placed_view(request):
             item = entry.item
             qty = entry.quantity
             orderentry = OrderEntry.objects.create(item = item, order = order, quantity = qty)
+
+            if (entry.item.topping > 0):
+                toppingentries = PizzaToppingEntry.objects.filter(cartentry = entry)
+                for t_entry in toppingentries:
+                    topping = PizzaTopping.objects.get(name=t_entry.topping)
+                    pztopping_orderentry = PizzaTopping_OrderEntry.objects.create(orderentry = orderentry, topping = topping)
+
+            # if item in the cart is sub
+            elif entry.item.category == "Sub":
+                toppingentries = SubToppingEntry.objects.filter(cartentry = entry)
+                for t_entry in toppingentries:
+                    topping = SubTopping.objects.get(name=t_entry.topping)
+                    subtopping_orderentry = SubTopping_OrderEntry.objects.create(orderentry = orderentry, topping = topping)
+
+
+
 
         # delete current cart and recreate an empty cart
         cart.delete()
@@ -194,11 +280,15 @@ def my_order_view(request):
         if(Order.objects.filter(user = user).exists()):
             orders = Order.objects.filter(user = user)
             orderentry = OrderEntry.objects.filter(order__in = orders)
+            pztoppingentry = PizzaTopping_OrderEntry.objects.filter(orderentry__in = orderentry)
+            subtoppingentry = SubTopping_OrderEntry.objects.filter(orderentry__in = orderentry)
 
             context = {
                 "user": user,
                 "orders": orders,
-                "orderentry": orderentry
+                "orderentry": orderentry,
+                "pztoppingentry": pztoppingentry,
+                "subtoppingentry": subtoppingentry
             }
             return render(request, "orders/myorder.html", context)
         else:
@@ -213,10 +303,15 @@ def manage_orders_view(request):
     else:
         orders = Order.objects.all()
         orderentry = OrderEntry.objects.filter(order__in = orders)
+        pztoppingentry = PizzaTopping_OrderEntry.objects.filter(orderentry__in = orderentry)
+        subtoppingentry = SubTopping_OrderEntry.objects.filter(orderentry__in = orderentry)
+
 
         context = {
             "orders": orders,
-            "orderentry": orderentry
+            "orderentry": orderentry,
+            "pztoppingentry": pztoppingentry,
+            "subtoppingentry": subtoppingentry
         }
         return render(request, "orders/manageorders.html", context)
 
