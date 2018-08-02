@@ -8,8 +8,8 @@ This is a pizza restaurant website where users are able to add food items to the
 ### admin.py
 Allowed models in model.py to be accessed in admin page.
 
-Admin ID: rachelmoon
-Admin PW: hello12345
+* Admin ID: rachelmoon
+* Admin PW: hello12345
 
 
 ### apps.py
