@@ -1,66 +1,65 @@
 {% extends "orders/base.html" %}
 
- {% block title %}
-     Pinocchio's | Cart
- {% endblock %}
+{% block title %}
+    Pinocchio's | Cart
+{% endblock %}
 
- {% block heading %}
+{% block heading %}
     <span style="color: green"><b>{{ user.username }}</b></span>'s Cart
- {% endblock %}
+{% endblock %}
 
 {% block body %}
-
-
 <table class="table table-sm table-striped">
-  <thead class="bg-success">
-    <tr>
-      <th scope="col">Item</th>
-      <th scope="col">Quantity</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for entry in cartentry %}
+    <thead class="bg-success">
         <tr>
-            <th scope="row">{{ entry.item }}</th>
-            <td>{{ entry.quantity }}</td>
+            <th scope="col">Item</th>
+            <th scope="col">Quantity</th>
         </tr>
-        {% for pz in pztoppingentry %}
-            {% if pz.cartentry == entry %}
-                <tr>
-                    <td>Extra: {{ pz.topping }}</td>
-                    <td></td>
-                </tr>
-            {% endif %}
-        {% endfor %}
+    </thead>
+    <tbody>
+        {% for entry in cartentry %}
+            <tr>
+                <th scope="row">{{ entry.item }}</th>
+                <td>{{ entry.quantity }}</td>
+            </tr>
 
-        {% for sub in subtoppingentry %}
-            {% if sub.cartentry == entry %}
-                <tr>
-                    <td>Extra: {{ sub.topping }}</td>
-                    <td></td>
-                </tr>
-            {% endif %}
-        {% endfor %}
+            <!--show pizza toppings added to cart, if added previously. -->
+            {% for pz in pztoppingentry %}
+                {% if pz.cartentry == entry %}
+                    <tr>
+                        <td>Extra: {{ pz.topping }}</td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
 
-    {% endfor %}
-  </tbody>
+            <!--show sub toppings added to cart, if added previously. -->
+            {% for sub in subtoppingentry %}
+                {% if sub.cartentry == entry %}
+                    <tr>
+                        <td>Extra: {{ sub.topping }}</td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </tbody>
 </table><br>
 
-
 <ul>
-    <li> <b>Total number of items:</b> {{ cart.count }}</li>
-    <li> <b>Total cost:</b> ${{ cart.total }} </li>
+    <li><b>Total number of items:</b> {{ cart.count }}</li>
+    <li><b>Total cost:</b> ${{ cart.total }} </li>
 </ul><br>
 
 {% if cart.count != 0 %}
-<ul>
-    <li><a class= "btn btn-outline-danger btn-lg btn-block" href="{%url 'addtoppings' %}" role="button">Add Toppings</a></li><br>
-    <li><a class= "btn btn-outline-success btn-lg btn-block" href="{% url 'orderconfirm' %}" role="button">Submit Order</a></li><br>
-</ul>
+    <ul>
+        <li><a class= "btn btn-outline-danger btn-lg btn-block" href="{%url 'addtoppings' %}" role="button">Add Toppings</a></li><br>
+        <li><a class= "btn btn-outline-success btn-lg btn-block" href="{% url 'orderconfirm' %}" role="button">Submit Order</a></li><br>
+    </ul>
 {% else %}
-<ul>
-    <li><a class= "btn btn-outline-success btn-lg btn-block" href="{% url 'menu' %}" role="button">View menu to add some items!</a></li><br>
-</ul>
+    <ul>
+        <li><a class= "btn btn-outline-success btn-lg btn-block" href="{% url 'menu' %}" role="button">View menu to add some items!</a></li><br>
+    </ul>
 {% endif %}
 </form>
 

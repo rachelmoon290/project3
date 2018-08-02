@@ -1,61 +1,61 @@
 {% extends "orders/base.html" %}
 
- {% block title %}
-     Pinocchio's | Confirm Your Order
- {% endblock %}
+{% block title %}
+    Pinocchio's | Confirm Your Order
+{% endblock %}
 
- {% block heading %}
+{% block heading %}
     Confirm <span style="color: green"><b>{{ user.username }}</b></span>'s Order
- {% endblock %}
+{% endblock %}
 
 {% block body %}
 
 <table class="table table-sm table-striped">
-  <thead class="bg-success">
-    <tr>
-      <th scope="col">Item</th>
-      <th scope="col">Quantity</th>
-    </tr>
-  </thead>
-  <tbody>
-      {% for entry in cartentry %}
-          <tr>
-              <th scope="row">{{ entry.item }}</th>
-              <td>{{ entry.quantity }}</td>
-          </tr>
-          {% for pz in pztoppingentry %}
-              {% if pz.cartentry == entry %}
-                  <tr>
-                      <td>Extra: {{ pz.topping }}</td>
-                      <td></td>
-                  </tr>
-              {% endif %}
-          {% endfor %}
+    <thead class="bg-success">
+        <tr>
+            <th scope="col">Item</th>
+            <th scope="col">Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for entry in cartentry %}
+            <tr>
+                <th scope="row">{{ entry.item }}</th>
+                <td>{{ entry.quantity }}</td>
+            </tr>
+            {% for pz in pztoppingentry %}
+                {% if pz.cartentry == entry %}
+                    <tr>
+                        <td>Extra: {{ pz.topping }}</td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
 
-          {% for sub in subtoppingentry %}
-              {% if sub.cartentry == entry %}
-                  <tr>
-                      <td>Extra: {{ sub.topping }}</td>
-                      <td></td>
-                  </tr>
-              {% endif %}
-          {% endfor %}
+            {% for sub in subtoppingentry %}
+                {% if sub.cartentry == entry %}
+                    <tr>
+                        <td>Extra: {{ sub.topping }}</td>
+                        <td></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
 
-      {% endfor %}
-  </tbody>
+        {% endfor %}
+    </tbody>
 </table><br><br>
 
 
 <ul>
-    <li> <b>Total number of items:</b> {{ cart.count }}</li>
-    <li> <b>Total cost:</b> ${{ cart.total }} </li>
+    <li><b>Total number of items:</b> {{ cart.count }}</li>
+    <li><b>Total cost:</b> ${{ cart.total }} </li>
 </ul><br>
 
 <form action="{% url 'orderplaced' %}" method="post">
     {% csrf_token %}
-<ul>
-    <li><button class= "btn btn-outline-success btn-lg btn-block" href="{% url 'orderplaced' %}" type="submit">Place Order</button></li>
-</ul>
+    <ul>
+        <li><button class= "btn btn-outline-success btn-lg btn-block" href="{% url 'orderplaced' %}" type="submit">Place Order</button></li>
+    </ul>
 </form>
 
 <ul>

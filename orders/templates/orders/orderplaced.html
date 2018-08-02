@@ -1,14 +1,14 @@
 {% extends "orders/base.html" %}
 
- {% block title %}
-     Pinocchio's | Order Successful
- {% endblock %}
+{% block title %}
+    Pinocchio's | Order Successful
+{% endblock %}
 
- {% block heading %}
+{% block heading %}
     <span style="color:green"><b>{{ user.username }}</b></span>'s order has been placed!
- {% endblock %}
+{% endblock %}
 
- {% block body %}
+{% block body %}
     <p><a href="{% url 'myorder' %}">View my orders</a> to check its status, or <a href="{% url 'index' %}">go back to main page</a>.</p>
 
     <div id="navfloat">
@@ -16,4 +16,4 @@
         <a class="btn btn-success btn-sm" href="{% url 'menu' %}" role="button">Menu</a>
         <a class="btn btn-success btn-sm" href="{% url 'logout' %}" role="button">Logout</a>
     </div>
- {% endblock %}
+{% endblock %}

@@ -1,60 +1,62 @@
 {% extends "orders/base.html" %}
 
- {% block title %}
-     Pinocchio's | My Orders
- {% endblock %}
+{% block title %}
+    Pinocchio's | My Orders
+{% endblock %}
 
- {% block heading %}
+{% block heading %}
     <span style="color: green"><b>{{ user.username }}</b></span>'s Orders
- {% endblock %}
+{% endblock %}
 
 {% block body %}
 
 {% for order in orders %}
 
-<br><h3>Order placed in: {{ order.created }}</h3>
-<table class="table table-sm table-striped">
-  <thead class="bg-success">
-    <tr>
-      <th scope="col">Item</th>
-      <th scope="col">Quantity</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for entry in orderentry %}
-        {% if entry.order == order %}
-            <tr>
-                <th scope="row">{{ entry.item }}</th>
-                <td>{{ entry.quantity }}</td>
-            </tr>
-                {% for pz in pztoppingentry %}
-                    {% if pz.orderentry == entry %}
-                        <tr>
-                            <td>Extra: {{ pz.topping }}</td>
-                            <td></td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
+    <br><h3>Order placed in: {{ order.created }}</h3>
+        <table class="table table-sm table-striped">
+            <thead class="bg-success">
+                <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entry in orderentry %}
+                {% if entry.order == order %}
+                    <tr>
+                        <th scope="row">{{ entry.item }}</th>
+                        <td>{{ entry.quantity }}</td>
+                    </tr>
+                        {% for pz in pztoppingentry %}
+                            {% if pz.orderentry == entry %}
+                                <tr>
+                                    <td>Extra: {{ pz.topping }}</td>
+                                    <td></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
 
-                {% for sub in subtoppingentry %}
-                    {% if sub.orderentry == entry %}
-                        <tr>
-                            <td>Extra: {{ sub.topping }}</td>
-                            <td></td>
-                        </tr>
-                    {% endif %}
-                {% endfor %}
+                        {% for sub in subtoppingentry %}
+                            {% if sub.orderentry == entry %}
+                                <tr>
+                                    <td>Extra: {{ sub.topping }}</td>
+                                    <td></td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
 
-        {% endif %}
-    {% endfor %}
-  </tbody>
-</table>
-<ul>
-    <li> <b>Total number of items:</b> {{ order.count }}</li>
-    <li> <b>Total cost:</b> ${{ order.total }} </li>
-    <li> <b>Status:</b> {{ order.status }}</li>
-</ul><hr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
 
+    <ul>
+        <li><b>Total number of items:</b> {{ order.count }}</li>
+        <li><b>Total cost:</b> ${{ order.total }} </li>
+        <li><b>Status:</b> {{ order.status }}</li>
+    </ul>
+
+    <hr>
 {% endfor %}
 
 

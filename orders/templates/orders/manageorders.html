@@ -1,68 +1,67 @@
 {% extends "orders/base.html" %}
 
- {% block title %}
-     Pinocchio's | Manage Orders
- {% endblock %}
+{% block title %}
+    Pinocchio's | Manage Orders
+{% endblock %}
 
- {% block heading %}
+{% block heading %}
     Manage Orders
- {% endblock %}
+{% endblock %}
 
 {% block body %}
 <form action="{% url 'orderstatus_change' %}" method="post">
     {% csrf_token %}
-{% for order in orders %}
-<br><h3>#{{ order.id }}. {{ order.user }} <small>{{ order.created }}</small></h3>
-<table class="table table-sm table-striped">
-  <thead class="bg-success">
-    <tr>
-      <th scope="col">Item</th>
-      <th scope="col">Quantity</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for entry in orderentry %}
-    {% if entry.order == order %}
-    <tr>
-        <th scope="row">{{ entry.item }}</th>
-        <td>{{ entry.quantity }}</td>
-    </tr>
+    {% for order in orders %}
+        <br><h3>#{{ order.id }}. {{ order.user }} <small>{{ order.created }}</small></h3>
+        <table class="table table-sm table-striped">
+            <thead class="bg-success">
+                <tr>
+                    <th scope="col">Item</th>
+                    <th scope="col">Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entry in orderentry %}
+                {% if entry.order == order %}
+                    <tr>
+                        <th scope="row">{{ entry.item }}</th>
+                        <td>{{ entry.quantity }}</td>
+                    </tr>
 
-    {% for pz in pztoppingentry %}
-        {% if pz.orderentry == entry %}
-            <tr>
-                <td>Extra: {{ pz.topping }}</td>
-                <td></td>
-            </tr>
-        {% endif %}
-    {% endfor %}
+                    {% for pz in pztoppingentry %}
+                        {% if pz.orderentry == entry %}
+                            <tr>
+                                <td>Extra: {{ pz.topping }}</td>
+                                <td></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
 
-    {% for sub in subtoppingentry %}
-        {% if sub.orderentry == entry %}
-            <tr>
-                <td>Extra: {{ sub.topping }}</td>
-                <td></td>
-            </tr>
-        {% endif %}
-    {% endfor %}
+                    {% for sub in subtoppingentry %}
+                        {% if sub.orderentry == entry %}
+                            <tr>
+                                <td>Extra: {{ sub.topping }}</td>
+                                <td></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
 
-
-    {% endif %}
-        {% endfor %}
-
-  </tbody>
-</table>
-<br>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    <br>
 <ul>
-    <li> <b>Total number of items:</b> {{ order.count }}</li>
-    <li> <b>Total cost:</b> ${{ order.total }} </li>
+    <li><b>Total number of items:</b> {{ order.count }}</li>
+    <li><b>Total cost:</b> ${{ order.total }} </li>
 
     {% if order.status == "Pending" %}
-    <li> <b>Status:</b> {{ order.status }} <button class = "btn btn-sm btn-outline-success" type="submit" name="complete" value="{{ order.id }}">Complete</button></li>
+        <li> <b>Status:</b> {{ order.status }} <button class = "btn btn-sm btn-outline-success" type="submit" name="complete" value="{{ order.id }}">Complete</button></li>
     {% else %}
-    <li> <b>Status:</b> {{ order.status }}</li>
+        <li> <b>Status:</b> {{ order.status }}</li>
     {% endif %}
-</ul><br><hr>
+</ul>
+<br><hr>
 
 {% endfor %}
 

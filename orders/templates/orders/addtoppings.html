@@ -1,12 +1,12 @@
 {% extends "orders/base.html" %}
 
- {% block title %}
-     Pinocchio's | Add Toppings
- {% endblock %}
+{% block title %}
+    Pinocchio's | Add Toppings
+{% endblock %}
 
- {% block heading %}
+{% block heading %}
     Add Toppings
- {% endblock %}
+{% endblock %}
 
 {% block body %}
 
@@ -14,20 +14,24 @@
     {% csrf_token %}
 
 <table class="table table-sm table-striped">
-  <thead class="bg-success">
-    <tr>
-      <th scope="col">Item</th>
-      <th scope="col">Quantity</th>
-    </tr>
-  </thead>
-  <tbody>
+    <thead class="bg-success">
+        <tr>
+            <th scope="col">Item</th>
+            <th scope="col">Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
     {% for entry in cartentry %}
+
+        <!--if it is sub, make topping options appear-->
         {% if entry.item.category == "Sub" %}
             <tr>
                 <th scope="row">{{ entry.item }}</th>
                 <td>{{ entry.quantity }}</td>
             </tr>
             {% for qty in "x"|rjust:entry.quantity %} <!-- this line is from https://stackoverflow.com/questions/1107737/numeric-for-loop-in-django-templates -->
+
+                <!--if it is steak sub, make additional topping options appear-->
                 {% if entry.item.name == "Steak" %}
                     <tr>
                         <td>Add toppings (+$0.50 per item):<br>
@@ -45,6 +49,7 @@
                 {% endif %}
             {% endfor %}
 
+        <!--if it is pizza, make topping options appear-->
         {% elif entry.item.topping > 0 %}
             <tr>
                 <th scope="row">{{ entry.item }}</th>
@@ -54,30 +59,25 @@
                 <tr>
                     <td>
                         Add toppings:
-                        {% for num_topping in "y"|rjust:entry.item.topping %}
-                            <select name="{{ entry.id }}" multiple>
-                                <option value = "" selected disabled hidden>Select</option>
-                                {% for topping in pizzatoppings %}
-                                        <option value = "{{ topping.name }}">{{ topping.name }}</option>
-                                {% endfor %}
-                            </select>
-                        {% endfor %}
-
+                        <select name="{{ entry.id }}" multiple>
+                            <option value = "" selected disabled hidden>Select</option>
+                            {% for topping in pizzatoppings %}
+                                    <option value = "{{ topping.name }}">{{ topping.name }}</option>
+                            {% endfor %}
+                        </select>
                     </td>
                 </tr>
             {% endfor %}
-
         {% endif %}
     {% endfor %}
 
   </tbody>
 </table><br><br>
 
-
-
 <ul>
     <li><button type="submit" class= "btn btn-outline-success btn-lg btn-block">Update Toppings</button></li><br>
 </ul>
+
 </form>
 
 <div id="navfloat">

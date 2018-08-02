@@ -10,11 +10,13 @@ class Menu(models.Model):
         ("Salad", 'Salad'),
         ("Pasta", 'Pasta'),
         ("DinnerPlatter", 'Dinner Platter')
+
     )
     SIZE_CHOICES = (
         ("Small", "Small"),
         ("Large", "Large")
     )
+
     category = models.CharField(max_length=20, choices=FOOD_CHOICES)
     name = models.CharField(max_length=200)
     size = models.CharField(max_length=6, choices=SIZE_CHOICES, null=True, blank=True)
@@ -28,6 +30,7 @@ class Menu(models.Model):
             return f"{self.get_category_display()}: {self.name} — ${self.price}"
 
 
+
 class PizzaTopping(models.Model):
     name=models.CharField(max_length=50)
     class Meta:
@@ -35,6 +38,7 @@ class PizzaTopping(models.Model):
         verbose_name_plural = "Pizza Toppings"
     def __str__(self):
         return f"{self.name}"
+
 
 
 class SubTopping(models.Model):
@@ -45,6 +49,8 @@ class SubTopping(models.Model):
         verbose_name_plural = "Sub Toppings"
     def __str__(self):
         return f"{self.name}"
+
+
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="carts")
@@ -73,7 +79,7 @@ class Order(models.Model):
         return f"{self.user.username}'s order ({self.status}): {self.count} items — ${self.total}"
 
 
-
+# actual each item information in cart will be stored here.
 class CartEntry(models.Model):
     item = models.ForeignKey(Menu, on_delete=models.CASCADE)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
@@ -87,10 +93,10 @@ class CartEntry(models.Model):
         return f"{self.item.get_category_display()}: {self.item.name} (Qty={self.quantity}) added to {self.cart.user}'s Cart."
 
 
+# pizza toppings in items in the cart
 class PizzaToppingEntry(models.Model):
     cartentry = models.ForeignKey(CartEntry, on_delete=models.CASCADE)
     topping = models.ForeignKey(PizzaTopping, on_delete=models.CASCADE, related_name="topping")
-
 
     class Meta:
         verbose_name = 'Pizza Topping Cart Entry'
@@ -100,7 +106,7 @@ class PizzaToppingEntry(models.Model):
         return f"{self.cartentry.cart.user} added {self.topping} in {self.cartentry.item}."
 
 
-
+# sub toppings in items in the cart
 class SubToppingEntry(models.Model):
     cartentry = models.ForeignKey(CartEntry, on_delete=models.CASCADE)
     topping = models.ForeignKey(SubTopping, on_delete=models.CASCADE, related_name="topping")
@@ -113,8 +119,7 @@ class SubToppingEntry(models.Model):
         return f"{self.cartentry.cart.user} added {self.topping} in {self.cartentry.item}."
 
 
-
-
+# actual each item information ordered will be stored here.
 class OrderEntry(models.Model):
     item = models.ForeignKey(Menu, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
@@ -128,11 +133,10 @@ class OrderEntry(models.Model):
         return f"{self.order.user} ordered {self.item.get_category_display()}: {self.item.name} (Qty={self.quantity})."
 
 
-
+# pizza toppings added in the items
 class PizzaTopping_OrderEntry(models.Model):
     orderentry = models.ForeignKey(OrderEntry, on_delete=models.CASCADE)
     topping = models.ForeignKey(PizzaTopping, on_delete=models.CASCADE, related_name="order_topping")
-
 
     class Meta:
         verbose_name = 'Pizza Topping Order Entry'
@@ -142,7 +146,7 @@ class PizzaTopping_OrderEntry(models.Model):
         return f"{self.orderentry.order.user} added {self.topping} in {self.orderentry.item}."
 
 
-
+# pizza toppings added in the ordered items
 class SubTopping_OrderEntry(models.Model):
     orderentry = models.ForeignKey(OrderEntry, on_delete=models.CASCADE)
     topping = models.ForeignKey(SubTopping, on_delete=models.CASCADE, related_name="order_topping")

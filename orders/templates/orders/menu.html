@@ -1,12 +1,12 @@
 {% extends "orders/base.html" %}
 
- {% block title %}
-     Pinocchio's | Menu
- {% endblock %}
+{% block title %}
+    Pinocchio's | Menu
+{% endblock %}
 
- {% block heading %}
+{% block heading %}
     Menu
- {% endblock %}
+{% endblock %}
 
 {% block body %}
 <ul>
@@ -18,147 +18,152 @@
     {% csrf_token %}
 <h3>Regular Pizza</h3>
 <table class="table table-sm table-striped">
-  <thead class="bg-success">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Size</th>
-      <th scope="col">Price($)</th>
-      <th scope="col">Quantity</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for regpizza in menu %}
-    {% if regpizza.category == "RegularPizza" %}
-    <tr>
-        <th scope="row">{{ regpizza.name }}</th>
-        <td>{{ regpizza.size }}</td>
-        <td>{{ regpizza.price }}</td>
-        <td><input name="{{ regpizza.id }}" type="number" value ="0" min="0" style="width:50px"></td>
-    </tr>
-        {% endif %}
+    <thead class="bg-success">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Size</th>
+            <th scope="col">Price($)</th>
+            <th scope="col">Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for regpizza in menu %}
+            {% if regpizza.category == "RegularPizza" %}
+                <tr>
+                    <th scope="row">{{ regpizza.name }}</th>
+                    <td>{{ regpizza.size }}</td>
+                    <td>{{ regpizza.price }}</td>
+                    <td><input name="{{ regpizza.id }}" type="number" value ="0" min="0" style="width:50px"></td>
+                </tr>
+            {% endif %}
         {% endfor %}
-  </tbody>
-</table><br>
+    </tbody>
+</table>
+<br>
 
 <h3>Sicilian Pizza</h3>
 <table class="table table-sm table-striped">
-  <thead class="bg-success">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Size</th>
-      <th scope="col">Price($)</th>
-      <th scope="col">Quantity</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for sicpizza in menu %}
-    {% if sicpizza.category == "SicilianPizza" %}
-    <tr>
-        <th scope="row">{{ sicpizza.name }}</th>
-        <td>{{ sicpizza.size }}</td>
-        <td>{{ sicpizza.price }}</td>
-        <td><input name="{{ sicpizza.id }}" type="number" value ="0" min="0" style="width:50px"></td>
-    </tr>
-        {% endif %}
+    <thead class="bg-success">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Size</th>
+            <th scope="col">Price($)</th>
+            <th scope="col">Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sicpizza in menu %}
+            {% if sicpizza.category == "SicilianPizza" %}
+                <tr>
+                    <th scope="row">{{ sicpizza.name }}</th>
+                    <td>{{ sicpizza.size }}</td>
+                    <td>{{ sicpizza.price }}</td>
+                    <td><input name="{{ sicpizza.id }}" type="number" value ="0" min="0" style="width:50px"></td>
+                </tr>
+            {% endif %}
         {% endfor %}
-  </tbody>
-</table><br>
+    </tbody>
+</table>
+<br>
 
 
 <h3>Sub</h3>
 <table class="table table-sm table-striped">
-  <thead class="bg-success">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Size</th>
-      <th scope="col">Price($)</th>
-      <th scope="col">Quantity</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for sub in menu %}
-    {% if sub.category == "Sub" %}
-    <tr>
-        <th scope="row">{{ sub.name }}</th>
-        <td>{{ sub.size }}</td>
-        <td>{{ sub.price }}</td>
-        <td><input name="{{ sub.id }}" type="number" value ="0" min="0" style="width:50px"></td>
-    </tr>
-        {% endif %}
+    <thead class="bg-success">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Size</th>
+            <th scope="col">Price($)</th>
+            <th scope="col">Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for sub in menu %}
+            {% if sub.category == "Sub" %}
+                <tr>
+                    <th scope="row">{{ sub.name }}</th>
+                    <td>{{ sub.size }}</td>
+                    <td>{{ sub.price }}</td>
+                    <td><input name="{{ sub.id }}" type="number" value ="0" min="0" style="width:50px"></td>
+                </tr>
+            {% endif %}
         {% endfor %}
-  </tbody>
-</table><br>
+    </tbody>
+</table>
+<br>
 
 
 <h3>Salad</h3>
 <table class="table table-sm">
-  <thead class="bg-success">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Price($)</th>
-      <th scope="col">Quantity</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for salad in menu %}
-    {% if salad.category == "Salad" %}
-    <tr>
-        <th scope="row">{{ salad.name }}</th>
-        <td>{{ salad.price }}</td>
-        <td><input name="{{ salad.id }}" type="number" value ="0" min="0" style="width:50px"></td>
-    </tr>
-        {% endif %}
+    <thead class="bg-success">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price($)</th>
+            <th scope="col">Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for salad in menu %}
+            {% if salad.category == "Salad" %}
+                <tr>
+                    <th scope="row">{{ salad.name }}</th>
+                    <td>{{ salad.price }}</td>
+                    <td><input name="{{ salad.id }}" type="number" value ="0" min="0" style="width:50px"></td>
+                </tr>
+            {% endif %}
         {% endfor %}
-  </tbody>
-</table><br>
+    </tbody>
+</table>
+<br>
 
 
 <h3>Pasta</h3>
 <table class="table table-sm">
-  <thead class="bg-success">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Price($)</th>
-      <th scope="col">Quantity</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for pasta in menu %}
-    {% if pasta.category == "Pasta" %}
-    <tr>
-        <th scope="row">{{ pasta.name }}</th>
-        <td>{{ pasta.price }}</td>
-        <td><input name="{{ pasta.id }}" type="number" value ="0" min="0" style="width:50px"></td>
-    </tr>
-        {% endif %}
+    <thead class="bg-success">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price($)</th>
+            <th scope="col">Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for pasta in menu %}
+            {% if pasta.category == "Pasta" %}
+                <tr>
+                    <th scope="row">{{ pasta.name }}</th>
+                    <td>{{ pasta.price }}</td>
+                    <td><input name="{{ pasta.id }}" type="number" value ="0" min="0" style="width:50px"></td>
+                </tr>
+            {% endif %}
         {% endfor %}
-  </tbody>
+    </tbody>
 </table><br>
 
 
 <h3>Dinner Platter</h3>
 <table class="table table-sm table-striped">
-  <thead class="bg-success">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Size</th>
-      <th scope="col">Price($)</th>
-      <th scope="col">Quantity</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for platter in menu %}
-    {% if platter.category == "DinnerPlatter" %}
-    <tr>
-        <th scope="row">{{ platter.name }}</th>
-        <td>{{ platter.size }}</td>
-        <td>{{ platter.price }}</td>
-        <td><input name="{{ platter.id }}" type="number" value ="0" min="0" style="width:50px"></td>
-    </tr>
-        {% endif %}
+    <thead class="bg-success">
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Size</th>
+            <th scope="col">Price($)</th>
+            <th scope="col">Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for platter in menu %}
+            {% if platter.category == "DinnerPlatter" %}
+                <tr>
+                    <th scope="row">{{ platter.name }}</th>
+                    <td>{{ platter.size }}</td>
+                    <td>{{ platter.price }}</td>
+                    <td><input name="{{ platter.id }}" type="number" value ="0" min="0" style="width:50px"></td>
+                </tr>
+            {% endif %}
         {% endfor %}
-  </tbody>
-</table><br>
+    </tbody>
+</table>
+<br>
 
 
 <ul>

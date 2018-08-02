@@ -1,18 +1,18 @@
 {% extends "orders/base.html" %}
 
- {% block title %}
-     Pinocchio's | Order Status Updated
- {% endblock %}
+{% block title %}
+    Pinocchio's | Order Status Updated
+{% endblock %}
 
- {% block heading %}
+{% block heading %}
     Order #{{ order.id }} has been updated as complete.
- {% endblock %}
+{% endblock %}
 
- {% block body %}
+{% block body %}
     <p><a href="{% url 'manageorders' %}">Go back</a> to continue managing orders.</p>
 
     <div id="navfloat">
         <a class="btn btn-success btn-sm" href="{% url 'index' %}" role="button">Home</a>
         <a class="btn btn-success btn-sm" href="{% url 'logout' %}" role="button">Logout</a>
     </div>
- {% endblock %}
+{% endblock %}

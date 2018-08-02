@@ -1,14 +1,14 @@
 {% extends "orders/base.html" %}
 
- {% block title %}
-     Pinocchio's | Toppings Added
- {% endblock %}
+{% block title %}
+    Pinocchio's | Toppings Added
+{% endblock %}
 
- {% block heading %}
+{% block heading %}
     Toppings added!
- {% endblock %}
+{% endblock %}
 
- {% block body %}
+{% block body %}
     <p><a href="{% url 'cart' %}">Check my cart</a> or <a href="{% url 'menu' %}">return to menu</a>.</p>
 
     <div id="navfloat">
@@ -16,4 +16,4 @@
         <a class="btn btn-success btn-sm" href="{% url 'menu' %}" role="button">Menu</a>
         <a class="btn btn-success btn-sm" href="{% url 'logout' %}" role="button">Logout</a>
     </div>
- {% endblock %}
+{% endblock %}
