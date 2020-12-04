@@ -1,4 +1,4 @@
-# CS-S33a Project 3
+# CS-S33a Project 3: Pizza Restaurant Website
 This is a pizza restaurant website where users are able to add food items to their cart, order items, and check its order status.
 
 
